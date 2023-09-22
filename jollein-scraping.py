@@ -54,3 +54,25 @@ while True:
 content = driver.page_source
 
 soup = BeautifulSoup(content, 'html.parser')
+
+data = []
+
+cards = soup.find_all(class_="card w-small")  # Find all product cards
+for card in cards:
+    # Extract the image link
+    image_link = card.select_one('.image-container img')['src']
+
+    # Extract the item code
+    item_code = card.select_one('.stock strong').get_text()
+
+    # Extract the item name
+    item_name = card.select_one('.description p').get_text()
+
+    # Extract the item price
+    item_price = card.select_one('.price-box strong').get_text()
+
+    # Append to the data list
+    data.append([image_link, item_code, item_name, item_price])
+
+# Now, data is a list of lists
+# Each sub-list is of the form [image_link, item_code, item_name, item_price]
